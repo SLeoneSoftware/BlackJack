@@ -19,8 +19,8 @@ class card:
 	suit = ""
 	value = 0
 	wasUsed = False
-	cardLocation = "/Users/stevenleone/iProj/pythonProj/card.gif"
-	cardLocationString = "/Users/stevenleone/iProj/pythonProj/cards/"
+	cardLocation = "card.gif"
+	cardLocationString = "cards/"
 	image = Tkinter.PhotoImage(file=cardLocation)
 	def stringIt(self):
 		output = " " + str(self.value) + " of "+ self.suit
@@ -139,7 +139,7 @@ def resetAll():
 	uCardPosition = 83
 	dCardPosition = 83
 	cardTrayLabel.destroy()
-	cardTray = Tkinter.PhotoImage(file = "/Users/stevenleone/iProj/pythonProj/greenBox 4.gif")
+	cardTray = Tkinter.PhotoImage(file = "greenBox 4.gif")
 	cardTrayLabel = Tkinter.Label(image = cardTray)
 	cardTrayLabel.image = cardTray
 	cardTrayLabel.place(x = 83, y = 100)
@@ -222,7 +222,7 @@ def hitButton():
 		dHand += thisCard.value
 		dLine += thisCard.stringIt()
 		cardDeck[rand].wasUsed = True
-		cardImage = Tkinter.PhotoImage(file="/Users/stevenleone/iProj/pythonProj/card.gif")
+		cardImage = Tkinter.PhotoImage(file="card.gif")
 		blankCard = Tkinter.Label(image = cardImage)
 		blankCard.image = cardImage
 		dCardImages.append(thisCard)
@@ -260,7 +260,7 @@ def stayButton():
 		dHand += thisCard.value
 		dLine += thisCard.stringIt()
 		cardDeck[rand].wasUsed = True
-		cardImage = Tkinter.PhotoImage(file="/Users/stevenleone/iProj/pythonProj/card.gif")
+		cardImage = Tkinter.PhotoImage(file="card.gif")
 		blankCard = Tkinter.Label(image = cardImage)
 		blankCard.image = cardImage
 		dCardImages.append(thisCard)
@@ -291,7 +291,7 @@ def makeBet():
 	dHand += thisCard.value
 	global dLine
 	dLine += thisCard.stringIt()
-	cardImage = Tkinter.PhotoImage(file="/Users/stevenleone/iProj/pythonProj/card.gif")
+	cardImage = thisCard.image
 	blankCard = Tkinter.Label(image = cardImage)
 	blankCard.image = cardImage
 	dCardImages.append(thisCard)
@@ -330,7 +330,7 @@ hb = Tkinter.Button(table, highlightbackground = "green", text = "Hit?", command
 sb = Tkinter.Button(table, highlightbackground = "green", text = "Stay?", command = stayButton, state = "disabled")
 bb = Tkinter.Button(table, highlightbackground = "green", text = "Bet it!", command = makeBet)
 betInput = Tkinter.Entry(table)
-cardTray = Tkinter.PhotoImage(file = "/Users/stevenleone/iProj/pythonProj/greenBox 4.gif")
+cardTray = Tkinter.PhotoImage(file = "greenBox 4.gif")
 cardTrayLabel = Tkinter.Label(image = cardTray)
 cardTrayLabel.place(x = 83, y = 100)
 label.pack()
@@ -341,7 +341,6 @@ sb.place(x = 850, y = 650)
 bb.pack(side = "bottom")
 betInput.pack(side = "bottom")
 table.mainloop()
-
 
 
 
