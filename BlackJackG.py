@@ -1,7 +1,9 @@
 import random
 import Tkinter
 import time
+import os
 
+#Setting all Initial Values
 table = Tkinter.Tk()
 table.configure(background = "green")
 bet = 0
@@ -32,95 +34,30 @@ class faceCard(card):
 		output = " " + self.face + " of " + self.suit
 		return output
 
-
+#Set Deck
 cardDeck = []
 faces = ["Jack", "Queen", "King", "Ace"]
 facesFirstL = ["J", "Q", "K", "A"]
+suits = ["Spades", "Diamonds", "Clubs", "Hearts"]
 
-for i in range(13):
-	if i > 8:
-		newCard = faceCard()
-		newCard.face = faces[9 - i]
-		newCard.value = 10
-		newCard.cardLocationString += facesFirstL[9 - i]
-		newCard.cardLocationString += "S.gif"
+for j in range(4):
+	for i in range(13):
+		if i > 8:
+			newCard = faceCard()
+			newCard.face = faces[9 - i]
+			newCard.value = 10
+			newCard.cardLocationString = os.path.join(newCard.cardLocationString, facesFirstL[9 - i])
+		else:
+			newCard = card()
+			index = i + 2
+			newCard.cardLocationString = os.path.join(newCard.cardLocationString, str(index))
+			newCard.value = index
+
+		newCard.cardLocationString += suits[j][:1] + ".gif"
 		newCard.cardLocation = newCard.cardLocationString
 		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-
-	else:
-		newCard = card()
-		index = i + 2
-		newCard.cardLocationString += str(index)
-		newCard.cardLocationString += "S.gif"
-		newCard.value = i + 2
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-
-	newCard.suit = "Spades"
-	cardDeck.append(newCard)
-
-for i in range(13):
-	if i > 8:
-		newCard = faceCard()
-		newCard.face = faces[9 - i]
-		newCard.value = 10
-		newCard.cardLocationString += facesFirstL[9 - i]
-		newCard.cardLocationString += "D.gif"
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-	else:
-		newCard = card()
-		index = i + 2
-		newCard.cardLocationString += str(index)
-		newCard.cardLocationString += "D.gif"
-		newCard.value = i + 2
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-
-	newCard.suit = "Diamonds"
-	cardDeck.append(newCard)
-
-for i in range(13):
-	if i > 8:
-		newCard = faceCard()
-		newCard.face = faces[9 - i]
-		newCard.value = 10
-		newCard.cardLocationString += facesFirstL[9 - i]
-		newCard.cardLocationString += "C.gif"
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-	else:
-		newCard = card()
-		index = i + 2
-		newCard.cardLocationString += str(index)
-		newCard.cardLocationString += "C.gif"
-		newCard.value = i + 2
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-
-	newCard.suit = "Clubs"
-	cardDeck.append(newCard)
-
-for i in range(13):
-	if i > 8:
-		newCard = faceCard()
-		newCard.face = faces[9 - i]
-		newCard.value = 10
-		newCard.cardLocationString += facesFirstL[9 - i]
-		newCard.cardLocationString += "H.gif"
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-	else:
-		newCard = card()
-		index = i + 2
-		newCard.cardLocationString += str(index)
-		newCard.cardLocationString += "H.gif"
-		newCard.value = i + 2
-		newCard.cardLocation = newCard.cardLocationString
-		newCard.image = Tkinter.PhotoImage(file = newCard.cardLocationString)
-
-	newCard.suit = "Hearts"
-	cardDeck.append(newCard)
+		newCard.suit = suits[j]
+		cardDeck.append(newCard)
 
 def resetAll():
 	global dCardImages
@@ -131,6 +68,9 @@ def resetAll():
 	global dCardPosition
 	global uCardPosition
 	global cardTrayLabel
+	global cardDeck
+	for thisCard in cardDeck:
+		thisCard.wasUSed = False
 	dCardImages = []
 	uHand = 0
 	dHand = 0
@@ -143,9 +83,6 @@ def resetAll():
 	cardTrayLabel = Tkinter.Label(image = cardTray)
 	cardTrayLabel.image = cardTray
 	cardTrayLabel.place(x = 83, y = 100)
-
-
-
 
 def showCards(winner):
 	global dCardImages
@@ -179,9 +116,6 @@ def showCards(winner):
 	instLabel.configure(text = "Bet to start (Bet 0 to quit)")
 	scoreLabel.configure(text = 'Total Money: $' + str(uMoney) + '\nYour Hand Value: ' + str(uHand))
 
-
-
-
 def checkWin(uStayed):
 	global uHand
 	global dHand
@@ -200,8 +134,6 @@ def checkWin(uStayed):
 			showCards("d")
 		else:
 			showCards("draw")
-
-
 
 def hitButton():
 	global dCardPosition
@@ -222,7 +154,7 @@ def hitButton():
 		dHand += thisCard.value
 		dLine += thisCard.stringIt()
 		cardDeck[rand].wasUsed = True
-		cardImage = Tkinter.PhotoImage(file="card.gif")
+		cardImage = Tkinter.PhotoImage(file = "card.gif")
 		blankCard = Tkinter.Label(image = cardImage)
 		blankCard.image = cardImage
 		dCardImages.append(thisCard)
@@ -244,7 +176,6 @@ def hitButton():
 	scoreLabel.configure(text = 'Total Money: $' + str(uMoney) + '\nYour Hand Value: ' + str(uHand))
 	checkWin(False)
 
-
 def stayButton():
 	global dCardPosition
 	global dHand
@@ -260,7 +191,7 @@ def stayButton():
 		dHand += thisCard.value
 		dLine += thisCard.stringIt()
 		cardDeck[rand].wasUsed = True
-		cardImage = Tkinter.PhotoImage(file="card.gif")
+		cardImage = Tkinter.PhotoImage(file = "card.gif")
 		blankCard = Tkinter.Label(image = cardImage)
 		blankCard.image = cardImage
 		dCardImages.append(thisCard)
@@ -319,7 +250,6 @@ def makeBet():
 	bb.configure(state = "disabled")
 	scoreLabel.configure(text = 'Total Money: $' + str(uMoney) + '\nYour Hand Value:' + str(uHand))
 
-
 	# Interface
 table.geometry("1500x750")
 table.resizable(0,0)
@@ -341,33 +271,3 @@ sb.place(x = 850, y = 650)
 bb.pack(side = "bottom")
 betInput.pack(side = "bottom")
 table.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
