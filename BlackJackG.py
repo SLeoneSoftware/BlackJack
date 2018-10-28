@@ -343,8 +343,6 @@ betInput.pack(side = "bottom")
 table.mainloop()
 
 
-#Start Code
-
 
 
 
