@@ -8,7 +8,6 @@ table = Tkinter.Tk()
 table.configure(background = "green")
 bet = 0
 uMoney = 1000
-isFirstRound = True
 dHand = 0
 uHand = 0
 dLine = "Dealer's hand:"
@@ -22,7 +21,7 @@ class card:
 	value = 0
 	wasUsed = False
 	cardLocation = "card.gif"
-	cardLocationString = "cards/"
+	cardLocationString = "cards"
 	image = Tkinter.PhotoImage(file=cardLocation)
 	def stringIt(self):
 		output = " " + str(self.value) + " of "+ self.suit
@@ -70,7 +69,7 @@ def resetAll():
 	global cardTrayLabel
 	global cardDeck
 	for thisCard in cardDeck:
-		thisCard.wasUSed = False
+		thisCard.wasUsed = False
 	dCardImages = []
 	uHand = 0
 	dHand = 0
@@ -166,6 +165,7 @@ def hitButton():
 	while thisCard.wasUsed:
 		rand = random.randint(0,51)
 		thisCard = cardDeck[rand]
+	cardDeck[rand].wasUsed = True
 	uHand += thisCard.value
 	uLine += thisCard.stringIt()
 	cardImage = thisCard.image
@@ -208,6 +208,10 @@ def makeBet():
 	global table
 	global instLabel
 	global scoreLabel
+	global uLine
+	global uHand
+	global dLine
+	global dHand
 	resetAll()
 	bet = int(betInput.get())
 	if bet == 0:
@@ -218,9 +222,7 @@ def makeBet():
 	while thisCard.wasUsed:
 		rand = random.randint(0,51)
 		thisCard = cardDeck[rand]
-	global dHand
 	dHand += thisCard.value
-	global dLine
 	dLine += thisCard.stringIt()
 	cardImage = thisCard.image
 	blankCard = Tkinter.Label(image = cardImage)
@@ -234,9 +236,8 @@ def makeBet():
 	while thisCard.wasUsed:
 		rand = random.randint(0,51)
 		thisCard = cardDeck[rand]
-	global uHand
+	cardDeck[rand].wasUsed = True
 	uHand += thisCard.value
-	global uLine
 	uLine += thisCard.stringIt()
 	cardImage = thisCard.image
 	blankCard = Tkinter.Label(image = cardImage)
